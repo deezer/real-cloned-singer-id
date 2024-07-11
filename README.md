@@ -1,2 +1,1 @@
-# real-cloned-singer-id
-Repository for the ISMIR 2024 Paper "From Real to Cloned Singer Identification".
+Code and dataset splits for the paper "From Real to Cloned Singer Identification" by Dorian Desblancs, Gabriel Meseguer-Brocal, Romain Hennequin, and Manuel Moussallam to be published soon.
