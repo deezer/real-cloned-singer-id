@@ -7,7 +7,6 @@ RUN pip install poetry
 WORKDIR /workspace
 
 COPY audio_example.mp3 .
-COPY README.md .
 COPY Makefile .
 
 # Install dependencies
