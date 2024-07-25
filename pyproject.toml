@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "real_cloned_singer_id"
+version = "0.0.1"
+description = "From Real to Cloned Singer Identification"
+authors = ["Research <research@deezer.com>"]
+readme = "README.md"
+repository = "https://github.com/deezer/real-cloned-singer-id"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+torch = "2.*"
+torchaudio = "2.*"
+torchinfo = "1.*"
+einops = "0.*"
+timm = "1.*"
+
+[tool.poetry.group.training.dependencies]
+torchmetrics = "1.*"
+tqdm = "4.*"
+types-tqdm = "4.*"
+pandas = "1.*"
+openpyxl = "3.*"
+ipython = "8.*"
+matplotlib = "3.*"
+pandas-stubs = "2.*"
+demucs = "4.*"
+scikit-learn = "1.*"
+seaborn = "0.*"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+ruff = "*"
+pytest = "*"
+pytest-asyncio = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.mypy]
+strict = true
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E741", "E742", "E743", "F", "I"]
+ignore = ["T201", "T203"]
