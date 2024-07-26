@@ -10,7 +10,7 @@ from foundation.constants import SAMPLING_FREQUENCY, SEG_DURATION
 from training.parameters import MODEL_CONFIG
 
 path2mixture: Callable[[str], str] = lambda f: f"data/mixtures/{f}.mp3"
-path2vocal: Callable[[str], str] = lambda f: f"data/mixtures/{f}.mp3"
+path2vocal: Callable[[str], str] = lambda f: f"data/vocals/{f}.mp3"
 
 
 class ContrastiveTrainDataset(torch.utils.data.IterableDataset):  # type: ignore
