@@ -88,4 +88,4 @@ CLONED_DATASET_ARTISTS = [
     "cloned_artist_id_66",
     "cloned_artist_id_67",
 ]
-CLONED_DATASET_DIR = "data/clonedDataset/"
+CLONED_DATASET_DIR = "eval_data/clonedDataset/"
