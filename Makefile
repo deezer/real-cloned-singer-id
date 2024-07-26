@@ -5,6 +5,7 @@ EVALUATION_DIR := evaluation
 FOUNDATION_DIR := foundation
 TRAINING_DIR := training
 SPLITS_DIR := splits
+# DATA_DIR := data
 
 DOCKER_PARAMS= -it --rm --ipc=host --name=$(DOCKER_CONTAINER_NAME)
 # Specify GPU device(s) to use. Expand shared memory size for pre-training task.
@@ -17,6 +18,7 @@ DOCKER_RUN_MOUNT= docker run $(DOCKER_PARAMS) \
 	-v $(PWD)/$(TRAINING_DIR)/:/workspace/$(TRAINING_DIR)/ \
 	-v $(PWD)/$(SPLITS_DIR)/:/workspace/$(SPLITS_DIR)/ \
 $(DOCKER_IMAGE_TAG)
+# -v $(PWD)/$(DATA_DIR)/:/workspace/$(DATA_DIR)/
 
 usage:
 	@echo "Available commands:\n-----------"
@@ -24,7 +26,7 @@ usage:
 	@echo "	run 		Run the Docker image in a container, after building it. Then launch an interactive bash session in the container while mounting the current directory"
 	@echo "	stop		Stop the container if it is running"
 	@echo "	logs		Display the logs of the container"
-	@echo "	exec		Attach to running container"
+	@echo "	attach		Attach to running container"
 	@echo "	qa-check	Check if code is nice and clean"
 	@echo "	qa-clean	Lint and format code"
 
@@ -41,7 +43,7 @@ logs:
 	docker logs -f --tail 1000 $(DOCKER_CONTAINER_NAME)
 
 attach:
-	docker attch ${DOCKER_CONTAINER_NAME}
+	docker attach ${DOCKER_CONTAINER_NAME}
 
 qa-check:
 	poetry run mypy $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
