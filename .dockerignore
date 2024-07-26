@@ -1,0 +1,16 @@
+__pycache__
+**/*.json
+**/*.png
+**/*.txt
+**/*.avro
+**/*.pkl
+**/*.pt
+**/*.pdf
+**/*.xlsx
+**/*.pickle
+**/*.npy
+**/*.zip
+splits/
+data/
+checkpoint/
+.git/
