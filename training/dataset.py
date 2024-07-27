@@ -61,22 +61,22 @@ class ContrastiveTrainDataset(torch.utils.data.IterableDataset):  # type: ignore
         while True:
             artist_id = random.choice(self.artist_ids)
             track1, track2 = tuple(random.sample(self.data_dict[artist_id]["tracks"], k=2))
-            md51, md52 = track1["md5"], track2["md5"]
+            path1, path2 = track1["path"], track2["path"]
             offset1, offset2 = random.choice(track1["instru_vocal"]), random.choice(track2["instru_vocal"])
 
             # Get mel-specs of segments
-            md51_paths = [path2vocal(md51), path2mixture(md51)]
-            md52_paths = [path2vocal(md52), path2mixture(md52)]
+            path1_paths = [path2vocal(path1), path2mixture(path1)]
+            path2_paths = [path2vocal(path2), path2mixture(path2)]
 
             if self.model_config == "mix2mix":
-                anchor = self.audioReader(md51_paths[1], offset1, SEG_DURATION)
-                positive = self.audioReader(md52_paths[1], offset2, SEG_DURATION)
+                anchor = self.audioReader(path1_paths[1], offset1, SEG_DURATION)
+                positive = self.audioReader(path2_paths[1], offset2, SEG_DURATION)
             elif self.model_config == "vocal2vocal":
-                anchor = self.audioReader(md51_paths[0], offset1, SEG_DURATION)
-                positive = self.audioReader(md52_paths[0], offset2, SEG_DURATION)
+                anchor = self.audioReader(path1_paths[0], offset1, SEG_DURATION)
+                positive = self.audioReader(path2_paths[0], offset2, SEG_DURATION)
             else:
-                anchor = self.audioReader(random.choice(md51_paths), offset1, SEG_DURATION)
-                positive = self.audioReader(random.choice(md52_paths), offset2, SEG_DURATION)
+                anchor = self.audioReader(random.choice(path1_paths), offset1, SEG_DURATION)
+                positive = self.audioReader(random.choice(path2_paths), offset2, SEG_DURATION)
 
             yield anchor, positive
 
@@ -150,22 +150,22 @@ class ContrastiveValDataset(torch.utils.data.Dataset):  # type: ignore
         if not self.use_cache:
             artist_id = self.artist_ids[index]
             track1, track2 = tuple(random.sample(self.data_dict[artist_id]["tracks"], k=2))
-            md51, md52 = track1["md5"], track2["md5"]
+            path1, path2 = track1["path"], track2["path"]
             offset1, offset2 = track1["instru_vocal"], track2["instru_vocal"]
 
             # Get mel-specs of segments
-            md51_paths = [path2vocal(md51), path2mixture(md51)]
-            md52_paths = [path2vocal(md52), path2mixture(md52)]
+            path1_paths = [path2vocal(path1), path2mixture(path1)]
+            path2_paths = [path2vocal(path2), path2mixture(path2)]
 
             if self.model_config == "mix2mix":
-                anchor = self.audioReader(md51_paths[1], offset1, SEG_DURATION)
-                positive = self.audioReader(md52_paths[1], offset2, SEG_DURATION)
+                anchor = self.audioReader(path1_paths[1], offset1, SEG_DURATION)
+                positive = self.audioReader(path2_paths[1], offset2, SEG_DURATION)
             elif self.model_config == "vocal2vocal":
-                anchor = self.audioReader(md51_paths[0], offset1, SEG_DURATION)
-                positive = self.audioReader(md52_paths[0], offset2, SEG_DURATION)
+                anchor = self.audioReader(path1_paths[0], offset1, SEG_DURATION)
+                positive = self.audioReader(path2_paths[0], offset2, SEG_DURATION)
             else:
-                anchor = self.audioReader(random.choice(md51_paths), offset1, SEG_DURATION)
-                positive = self.audioReader(random.choice(md52_paths), offset2, SEG_DURATION)
+                anchor = self.audioReader(random.choice(path1_paths), offset1, SEG_DURATION)
+                positive = self.audioReader(random.choice(path2_paths), offset2, SEG_DURATION)
 
             self.cached_data.append(torch.stack([anchor, positive]))
 

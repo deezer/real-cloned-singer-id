@@ -60,11 +60,11 @@ class TrainDataset(torch.utils.data.IterableDataset):  # type: ignore
             idx, artist_id = random.choice(self.artist_ids)
 
             track = random.choice(self.data_dict[artist_id]["tracks"][1:])
-            md5 = track["md5"]
+            path = track["path"]
             offset = random.choice(track["instru_vocal"])
 
             # Get embedding
-            with open(path2pickle(md5), "rb") as handle:
+            with open(path2pickle(path), "rb") as handle:
                 embeddings = pickle.load(handle)
 
             embedding = embeddings[offset]
@@ -136,11 +136,11 @@ class ValDataset(torch.utils.data.Dataset):  # type: ignore
             idx, artist_id = self.artist_ids[index]
 
             track = self.data_dict[artist_id]["tracks"][0]
-            md5 = track["md5"]
+            path = track["path"]
             offset = random.choice(track["instru_vocal"])
 
             # Get embedding
-            with open(path2pickle(md5), "rb") as handle:
+            with open(path2pickle(path), "rb") as handle:
                 embeddings = pickle.load(handle)
 
             embedding = embeddings[offset]
@@ -198,18 +198,18 @@ class TestDataset(torch.utils.data.Dataset):  # type: ignore
         idx, artist_id = self.artist_ids[index]
 
         track = self.data_dict[artist_id]["test_track"]
-        md5 = track["md5"]
+        path = track["path"]
         metadata = {
             "artist_name": self.data_dict[artist_id]["name"],
             "artist_id": artist_id,
-            "md5": md5,
+            "path": path,
             "macro_genre": track["macro_genre"],
             "lang": track["lang"],
             "num_train_tracks": len(self.data_dict[artist_id]["tracks"]) - 1,
         }
 
         # Get embedding
-        with open(path2pickle(md5), "rb") as handle:
+        with open(path2pickle(path), "rb") as handle:
             embeddings = pickle.load(handle)
 
         # Create batch of mel-specs
