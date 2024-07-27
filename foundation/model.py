@@ -233,7 +233,7 @@ class TrainingWrapper(torch.nn.Module):
         output_dim: int,
     ) -> None:
         """
-        Check ModifiedResNet and Projection object args for details.
+        Check ASTModel and Projection object args for details.
         """
         super().__init__()
 
