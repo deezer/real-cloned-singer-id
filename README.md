@@ -19,7 +19,7 @@ make build
 make run
 ```
 
-From there, you can expand upon or use the parts of this repo you need. The `foundation/` directory contains the base Transformer and Audio model, that are then used to create our embedding models. The code for training these backbone models can then be found in the `training/` directory. Finally, these embeddings are evaluated in the `evaluation/` section. Note that these are pickled for each track to accelerate singer identification result computation (see `evaluation/pickle_embeddings.py`
+From there, you can expand upon or use the parts of this repo you need. The `foundation/` directory contains the base Transformer and Audio model, that are then used to create our embedding models. The code for training these backbone models can then be found in the `training/` directory. Finally, these embeddings are evaluated in the `evaluation/` section. Note that these are pickled for each track to accelerate singer identification result computation (see `evaluation/pickle_embeddings.py`).
 
 ## Disclaimer
 
