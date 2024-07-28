@@ -62,7 +62,7 @@ class ContrastiveTrainDataset(torch.utils.data.IterableDataset):  # type: ignore
             artist_id = random.choice(self.artist_ids)
             track1, track2 = tuple(random.sample(self.data_dict[artist_id]["tracks"], k=2))
             path1, path2 = track1["path"], track2["path"]
-            offset1, offset2 = random.choice(track1["instru_vocal"]), random.choice(track2["instru_vocal"])
+            offset1, offset2 = random.choice(track1["vocal"]), random.choice(track2["vocal"])
 
             # Get mel-specs of segments
             path1_paths = [path2vocal(path1), path2mixture(path1)]
@@ -151,7 +151,7 @@ class ContrastiveValDataset(torch.utils.data.Dataset):  # type: ignore
             artist_id = self.artist_ids[index]
             track1, track2 = tuple(random.sample(self.data_dict[artist_id]["tracks"], k=2))
             path1, path2 = track1["path"], track2["path"]
-            offset1, offset2 = track1["instru_vocal"], track2["instru_vocal"]
+            offset1, offset2 = track1["vocal"], track2["vocal"]
 
             # Get mel-specs of segments
             path1_paths = [path2vocal(path1), path2mixture(path1)]

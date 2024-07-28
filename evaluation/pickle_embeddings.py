@@ -32,7 +32,7 @@ mtg_vocals = "data/mtg-jamendo-dataset/stems/mdx_extra/"
 
 def generatePickledEmbeddings(track: Dict[str, Any]) -> None:
     """
-    Pickle file name: md5.pickle
+    Pickle file name: path.pickle
     Pickle file values: {
         vocal segment time (s): embedding value (2048 floats)
     }
@@ -40,16 +40,16 @@ def generatePickledEmbeddings(track: Dict[str, Any]) -> None:
     track (Dict[str, Any]):
         Test set track in dict format.
     """
-    md5 = track["md5"]
+    path = track["path"]
 
-    if not os.path.exists(f"{PICKLES_PATH}/{md5}.pickle"):
+    if not os.path.exists(f"{PICKLES_PATH}/{path}.pickle"):
         vocal = track["vocal"]
         pickle_dict = {}
 
         if MODEL_CONFIG == "vocal2vocal":
-            audio = audioReader.load_audio(path2vocal(md5), 0, MAX_DURATION)
+            audio = audioReader.load_audio(path2vocal(path), 0, MAX_DURATION)
         else:
-            audio = audioReader.load_audio(path2mixture(md5), 0, MAX_DURATION)
+            audio = audioReader.load_audio(path2mixture(path), 0, MAX_DURATION)
 
         for offset in vocal:
             start_index = int(offset * SAMPLING_FREQUENCY)
@@ -62,7 +62,7 @@ def generatePickledEmbeddings(track: Dict[str, Any]) -> None:
             output = feature_model(mel_spec.unsqueeze(0))
             pickle_dict[offset] = output.detach().squeeze(0).cpu()
 
-        with open(f"{PICKLES_PATH}/{md5}.pickle", "wb") as handle:
+        with open(f"{PICKLES_PATH}/{path}.pickle", "wb") as handle:
             pickle.dump(pickle_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     return
@@ -185,7 +185,7 @@ if __name__ == "__main__":
     if not os.path.isdir(FMA_PICKLES_PATH):
         Path(FMA_PICKLES_PATH).mkdir(parents=True, exist_ok=True)
 
-    # Now iterate through test set md5s and save embedding values
+    # Now iterate through test set paths and save embedding values
     with torch.inference_mode():
         feature_model.eval()
 

@@ -278,7 +278,7 @@ class Trainer(object):
         Test model!
         """
         # Testing...
-        best_weights = torch.load(f"{STORAGE_PATH}/ai_weights.pt")["model_state_dict"]
+        best_weights = torch.load(f"{STORAGE_PATH}/weights.pt")["model_state_dict"]
         self.model.load_state_dict(best_weights)
 
         print("\nTest set:")

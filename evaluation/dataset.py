@@ -61,7 +61,7 @@ class TrainDataset(torch.utils.data.IterableDataset):  # type: ignore
 
             track = random.choice(self.data_dict[artist_id]["tracks"][1:])
             path = track["path"]
-            offset = random.choice(track["instru_vocal"])
+            offset = random.choice(track["vocal"])
 
             # Get embedding
             with open(path2pickle(path), "rb") as handle:
@@ -137,7 +137,7 @@ class ValDataset(torch.utils.data.Dataset):  # type: ignore
 
             track = self.data_dict[artist_id]["tracks"][0]
             path = track["path"]
-            offset = random.choice(track["instru_vocal"])
+            offset = random.choice(track["vocal"])
 
             # Get embedding
             with open(path2pickle(path), "rb") as handle:
@@ -213,7 +213,7 @@ class TestDataset(torch.utils.data.Dataset):  # type: ignore
             embeddings = pickle.load(handle)
 
         # Create batch of mel-specs
-        embedding_batch = torch.zeros(len(track["instru_vocal"]), FEATURE_DIM)
+        embedding_batch = torch.zeros(len(track["vocal"]), FEATURE_DIM)
 
         for x, (_, embedding) in enumerate(embeddings.items()):
             embedding_batch[x, :] = embedding
@@ -264,9 +264,9 @@ class ClonedDataset(torch.utils.data.Dataset):  # type: ignore
             }
             self.tracks.append(data)
 
-        # Load cloned dataset instru-vocal results
-        with open(CLONED_DATASET_DIR + "/instru_vocal.json", "r+") as f:
-            self.instru_vocal = json.load(f)
+        # Load cloned dataset vocal results
+        with open(CLONED_DATASET_DIR + "/vocal.json", "r+") as f:
+            self.vocal = json.load(f)
 
         # Audio parameters
         self.sampling_frequency = SAMPLING_FREQUENCY
@@ -306,7 +306,7 @@ class ClonedDataset(torch.utils.data.Dataset):  # type: ignore
         track = self.tracks[index]
         audio_path = track["file_id"]
         artist_indices = track["artist_indices"]
-        audio_instru_vocal = self.instru_vocal[audio_path]
+        audio_vocal = self.vocal[audio_path]
 
         # Get audio
         if MODEL_CONFIG == "vocal2vocal":
@@ -318,9 +318,9 @@ class ClonedDataset(torch.utils.data.Dataset):  # type: ignore
         waveform = torch.tensor(np_waveform)
 
         # Create batch of mel-specs
-        waveform_batch = torch.zeros(len(audio_instru_vocal), 2, self.sampling_frequency * self.seg_duration)
+        waveform_batch = torch.zeros(len(audio_vocal), 2, self.sampling_frequency * self.seg_duration)
 
-        for x, offset in enumerate(audio_instru_vocal):
+        for x, offset in enumerate(audio_vocal):
             start = int(self.sampling_frequency * offset)
             end = start + self.seg_duration * self.sampling_frequency
             waveform_batch[x, :, :] = waveform[:, start:end]
