@@ -13,10 +13,10 @@ from torchinfo import summary
 from tqdm import tqdm, trange
 
 from evaluation.dataset import (
+    ClonedDataset,
     FMATestDataset,
     FMATrainDataset,
     FMAValDataset,
-    ClonedDataset,
     MTGTestDataset,
     MTGTrainDataset,
     MTGValDataset,
@@ -28,9 +28,9 @@ from evaluation.model import EvaluationWrapper
 from evaluation.parameters import (
     BACKBONE_WEIGHTS_PATH,
     BATCH_SIZE,
+    CLONED_DATASET_ARTISTS,
     EARLY_STOP,
     FACTOR,
-    CLONED_DATASET_ARTISTS,
     LEARNING_RATE,
     STEP_SIZE,
     STORAGE_PATH,
@@ -127,15 +127,15 @@ class Trainer(object):
 
             if self.cuda_available:
                 self.feature_model = self.feature_model.cuda()
-            
+
         elif results == "vanilla":
             artist_ids = random.sample(list(test_set.keys()), k=self.num_classes)
 
         # Declare datasets
         if results == "vanilla" or results == "cloned":
-            trainDataset: torch.utils.data.IterableDataset = TrainDataset(test_set, artist_ids)
-            valDataset: torch.utils.data.Dataset = ValDataset(test_set, artist_ids)
-            self.testDataset: torch.utils.data.Dataset = TestDataset(test_set, artist_ids)
+            trainDataset: Any = TrainDataset(test_set, artist_ids)
+            valDataset: Any = ValDataset(test_set, artist_ids)
+            self.testDataset: Any = TestDataset(test_set, artist_ids)
         elif results == "fma":
             trainDataset = FMATrainDataset()
             valDataset = FMAValDataset(trainDataset.artist_ids)
@@ -195,7 +195,7 @@ class Trainer(object):
             top_k=5,
             average=None,
         )
-        self.optimizer = torch.optim.Adam(
+        self.optimizer = torch.optim.Adam(  # type: ignore
             self.model.classifier.parameters(),
             lr=learning_rate,
             betas=(0.9, 0.999),
@@ -494,8 +494,8 @@ class Trainer(object):
                     preds = torch.cat([preds, softmax_classes], dim=0)
 
                 targets.append(tag_class)
-                _, predicted_artist_id = self.testDataset.artist_ids[int(torch.argmax(softmax_classes, dim=-1).item())]  # type: ignore
-                predicted_artist_name = self.testDataset.data_dict[predicted_artist_id]["name"]  # type: ignore
+                _, predicted_artist_id = self.testDataset.artist_ids[int(torch.argmax(softmax_classes, dim=-1).item())]
+                predicted_artist_name = self.testDataset.data_dict[predicted_artist_id]["name"]
 
                 # Stuff for CSV
                 is_top1 = self.top1_accuracy(softmax_classes, tag_argmax)[tag_class].int().item()

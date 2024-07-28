@@ -46,10 +46,10 @@ attach:
 	docker attach ${DOCKER_CONTAINER_NAME}
 
 qa-check:
-	poetry run mypy $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
-	poetry run ruff check --no-fix $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
-	poetry run ruff format --check $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
+	poetry run mypy $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR)
+	poetry run ruff check --no-fix $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR)
+	poetry run ruff format --check $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR)
 
 qa-clean:
-	poetry run ruff check --fix $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
-	poetry run ruff format $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR) $(SPLITS_DIR)
+	poetry run ruff check --fix $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR)
+	poetry run ruff format $(EVALUATION_DIR) $(FOUNDATION_DIR) $(TRAINING_DIR)

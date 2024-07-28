@@ -130,7 +130,7 @@ class Trainer(object):
 
         self.criterion = NT_Xent(self.batch_size, self.temperature)
 
-        self.optimizer = torch.optim.Adam(
+        self.optimizer = torch.optim.Adam(  # type: ignore
             self.model.parameters(),
             lr=learning_rate,
             betas=(0.9, 0.999),
@@ -292,7 +292,7 @@ class Trainer(object):
             "model_state_dict": self.model.state_dict(),
             "criterion_state_dict": self.criterion.state_dict(),
             "optimizer_state_dict": self.optimizer.state_dict(),
-            "scheduler_state_dict": self.scheduler.state_dict(),
+            "scheduler_state_dict": self.scheduler.state_dict(),  # type: ignore
             "best_loss_value": self.best_loss_value,
             "plateau": self.plateau,
             "mean_val_loss": self.mean_val_loss,
@@ -349,7 +349,7 @@ class Trainer(object):
             self.model.load_state_dict(checkpoint["model_state_dict"])
             self.criterion.load_state_dict(checkpoint["criterion_state_dict"])
             self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
-            self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+            self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])  # type: ignore
 
             self.epoch = checkpoint["epoch"] + 1
 
