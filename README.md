@@ -23,7 +23,7 @@ From there, you can expand upon or use the parts of this repo you need. The `fou
 
 ## Disclaimer
 
-This repository is not meant to run as is. It has been trimmed down a lot since most of the experimental cannot be made public. However, some interesting bits, such as the data pipelines for large-scale training or artist-level constrastive learning, are left here to serve as inspiration for future research in singer identification, music information retrieval, or even audio in general. Happy hacking!
+This repository is not meant to run as is. It has been trimmed down a lot since most of the experimental setup cannot be made public. However, some interesting bits, such as the data pipelines for large-scale training or artist-level constrastive learning, are left here to serve as inspiration for future research in singer identification, music information retrieval, or even audio in general. Happy hacking!
 
 ## Reference
 
